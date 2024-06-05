@@ -109,4 +109,11 @@ let str7 = 'As much as I like rain, so I like umbrellas'
  * 2. Also Replace "as" in any case in the end of str7 by 😀
  * 3. Again take the original str7 and insert into the end ☔
  */
+console.log(str7.replace(/^as/i,'😀').replace(/as$/i,'😀'));
+console.log(str7.replace(/$/,'☔'))
+console.log(str7.replace(/^as|as$/ig,'😀'));
 
+let str8 = 'I like rain'
+console.log(str7.replace(/^I like rain$/,'☔'))
+console.log(str8.replace(/^I like rain$/g,'☔'))
+console.log(str8.replace(/^I | rain$/g,'☔'))
