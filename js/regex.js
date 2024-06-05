@@ -91,3 +91,22 @@ console.log(str5.replace(/(cat|dog|cow)s/g,'whales'))
 // 2. concatenate to the previous : replace "like" by "don't like"
 // 3. In the original str5 replace every "and dogs", "and people",
 //    "and cows", "and birds" by "and lions"
+
+console.log(str5.replace(/(dog|cat|bird|people)/g,'dolfin')
+       .replace(/like/g,'don\'t like'));
+
+console.log(str5.replace(/and (dogs|people|cows|birds)/g,'and lions'))
+
+// ^ - start of string, $ - end of string
+let str6 = 'I like summer and I like Madagascar'
+console.log(str6.replace(/^I like/g,'I hate'))
+console.log(str6.replace(/^/,'La-la-la, '))
+
+let str7 = 'As much as I like rain, so I like umbrellas'
+
+/***MISSION:
+ * 1. Replace "as" in any case in the beginning of str7 by 😃
+ * 2. Also Replace "as" in any case in the end of str7 by 😀
+ * 3. Again take the original str7 and insert into the end ☔
+ */
+
