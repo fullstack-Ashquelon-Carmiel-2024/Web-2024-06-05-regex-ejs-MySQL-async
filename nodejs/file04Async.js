@@ -27,6 +27,17 @@ fs.readdir('./data',(err, fileList) => {
         console.log(`The text of the last file is:\n`,txt)
 
         /** MISSION: Now write asyncronously "txt" into ./data/output.txt */
+        fs.writeFile('./data/output.txt',txt,(err) => {
+
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+
+            console.log('Has written the file successfully')
+            console.log('I AM IN THE "CALLBACK HELL👿"')
+
+        })
 
     })
 
