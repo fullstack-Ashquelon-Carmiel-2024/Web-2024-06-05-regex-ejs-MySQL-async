@@ -133,6 +133,247 @@ app.listen(port, () => {
 
 })
 
-10. 
+10. Create script for the table 'food':
+
+yummy/db/food.sql:
+
+USE yummy;
+
+DROP TABLE IF EXISTS food;
+
+CREATE TABLE food (
+    id SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL UNIQUE KEY,
+    cosher_type CHAR(5) NULL, -- MILK,MEAT,PARVE
+    cuisine_id TINYINT NULL,
+    image VARCHAR(250) NOT NULL,
+    kalories SMALLINT NULL,
+    prepare_time_min SMALLINT NOT NULL, 
+    ingredients VARCHAR(300) NOT NULL,
+    type_of_dish VARCHAR(15) NULL -- DESSERT,SOUP,MAIN,SIDE DISH,DRINK
+);
+
+/**
+1byte = 8bits
+00000000
+2^8 = 256 (0-255)
+*/
+
+INSERT INTO food (name,cosher_type,cuisine_id,
+    image, kalories, prepare_time_min, 
+    ingredients,  type_of_dish)
+VALUES ('chumus masbacha','parve',1,'chummus-masbacha.jpg',
+    550,120,'chumus, tchina, oil','main'),
+ ('sushi','parve',2,'sushi.jpeg',
+    250,90,'rice, nuri, avocado','main'),
+ ('pavlova','milk',3,'pavlova.jpg',
+    330,180,'eggs, whipped cream , crunberry',
+    'dessert'),
+ ('kube selek','meat',4,'kube-selek.jpeg',
+    370, 180,'beetroot, meat, semolina',
+    'main');
+
+11. Create script for the table 'cuisine':
+
+yummy/db/cuisine.sql:
+
+USE yummy;
+
+DROP TABLE IF EXISTS cuisine;
+
+CREATE TABLE cuisine (
+    id TINYINT NOT NULL PRIMARY KEY,
+    name VARCHAR(60) NOT NULL UNIQUE KEY,
+    continent VARCHAR(15) NOT NULL,
+    flag VARCHAR(250) NULL,
+    description VARCHAR(500) NULL
+);
+
+INSERT INTO cuisine (id,name,continent)
+VALUES (1, 'Israeli','Asia'),
+ (2, 'Japanese','Asia'),
+ (3, 'Australian','Australia'),
+ (4, 'Iraqi','Asia'),
+ (5, 'French','Europe');
 
 
+12. MVC - model, view, controller
+
+Model - entities, db, interacting with DB
+
+View - the visual part, what we see in the 
+       browser (templates or HTML)
+
+Controller - connects between the model 
+             and the view
+
+13. Add to the server yummy.js
+
+"path" module and Express variables for ejs
+
+templating enjine:
+
+const express = require('express');
+const mysql = require('mysql2');
+const path = require('path');
+require('ejs');
+
+/********** VARIABLES **********/
+let port = process.env.PORT ? process.env.PORT : 3053;
+
+/*********** DB CONNECTION **********/
+const db = mysql.createConnection({
+    host: 'localhost', // or '127.0.0.1'
+    port: 3306,
+    database: 'yummy',
+    user: 'root', // TBD: create new, less powerful user
+    password: ''
+})
+
+db.connect(err => {
+
+    if (err) {
+        // Connection to DB is critical for our app,
+        // so if it has failed, we should treat it 
+        // and not start the server
+        throw(err)
+    }
+
+    console.log('I fill lucky today. I\'ve connected to DB!!!');
+
+})
+
+/***** CREATE THE SERVER ******/
+const app = express();
+
+/***** VARIABLES OF EXPRESS ******/
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'views'));
+
+/******* ROUTING *********/
+app.get('/',(req,res) => {
+
+    res.send('<h1>🧁🥑The YUMMIEST APP of all🍐</h1>')
+
+})
+
+/*********LISTENER *********/
+app.listen(port, () => {
+
+    console.log(`Listening on the port ${port}`)
+
+})
+
+14. Change the template yummy/views/partials/header.ejs 
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="/assets/css/custom.css">-->
+    <title><%= title %></title>
+</head>
+<style>
+    .table-wrapper {
+        margin-top: 50px;
+    }
+
+    .player-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .add-player-form {
+        margin-top: 50px;
+    }
+</style>
+<body>
+<div class="page-wrapper">
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1" ><a href="/">Yummy</a></span>
+        <a class="float-right" href="/add" title="Add a New Food">Add a Food</a>
+    </nav>
+
+15. Create small template from index.ejs:
+small-index.ejs:
+
+<%- include('partials/header.ejs') %>
+    <div class="table-wrapper">
+        
+        <h2>Yummy!!!</h2>
+
+    </div>
+</div>
+</body>
+</html>
+
+16. yummy/modele/home.js:
+
+module.exports = function (req,res) {
+
+    res.render('small-index.ejs',
+      {title: 'Yummy'})
+
+}
+
+17. In the server, import it
+and use for app.get('/'):
+
+yummy/yummy.js:
+
+const express = require('express');
+const mysql = require('mysql2');
+const path = require('path');
+require('ejs');
+
+const getHomePage = require('./model/home');
+
+/********** VARIABLES **********/
+let port = process.env.PORT ? process.env.PORT : 3053;
+
+/*********** DB CONNECTION **********/
+const db = mysql.createConnection({
+    host: 'localhost', // or '127.0.0.1'
+    port: 3306,
+    database: 'yummy',
+    user: 'root', // TBD: create new, less powerful user
+    password: ''
+})
+
+db.connect(err => {
+
+    if (err) {
+        // Connection to DB is critical for our app,
+        // so if it has failed, we should treat it 
+        // and not start the server
+        throw(err)
+    }
+
+    console.log('I fill lucky today. I\'ve connected to DB!!!');
+
+})
+
+/***** CREATE THE SERVER ******/
+const app = express();
+
+/***** VARIABLES OF EXPRESS ******/
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'views'));
+
+/******* ROUTING *********/
+app.get('/',getHomePage);
+
+/*********LISTENER *********/
+app.listen(port, () => {
+
+    console.log(`Listening on the port ${port}`)
+
+})
+
+18.
