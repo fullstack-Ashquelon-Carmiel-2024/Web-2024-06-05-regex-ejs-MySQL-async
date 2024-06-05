@@ -76,3 +76,18 @@ if ('A'>'D') {
 }
 
 let str5 = `There are people that like dogs and people that like cats and people that like cats and dogs. Is there a dog that like people and people?`
+
+/// () - group
+/// (cat|dog|cow) - "or cat or dog or cow"
+console.log(str5.replace(/(cat|dog|cow)/g,'whale'))
+
+// string outside the group () is common (belongs) for
+// each string in the group, i.e.:
+// /(cat|dog|cow)s/ - "or cats or dogs or cows"
+console.log(str5.replace(/(cat|dog|cow)s/g,'whales'))
+
+// MISSION: 
+// 1. in str5 replace people, dog, cat, bird by dolfin 
+// 2. concatenate to the previous : replace "like" by "don't like"
+// 3. In the original str5 replace every "and dogs", "and people",
+//    "and cows", "and birds" by "and lions"
