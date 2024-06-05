@@ -1,0 +1,36 @@
+CHALLENGEs are OPTIONAL
+
+00. Create directory panda/your_name/hw/hw-2024-05-26
+00. Create directory panda/your_name/hw/hw-2024-05-26/laptop-store
+00. Create directory panda/your_name/projects/06-nim etc.
+
+0. Projects
+   00-portfolio - get some ideas, what do you want 
+   00-tic-tac-toe - 30.04.2024
+   01-is-it-a-prime-number - 30.04.2024
+   02-css-explanator - 30.04.2024
+   03-questionnaire - 8.05.2024
+   04-binary-guessing - 16.05.2024 - small groups
+   05-string-games - "fix the clock","random quote",
+       "palindrome" and "gematria" parts - 30.05.2024
+   06-nim - 23.05.2024 - small groups
+
+   Optional Projects:
+      - Canvas "Breakout Game"
+      - "Endless Dangers" - see the description below
+      - "Dreidel"
+      - "Memory Game" - see the beginning files and 
+          the example of how to flip card inside 
+          the "projects/optional/memory-game" dir
+
+
+1. Finish NodeJS practice "farm" and NodeJS practice "laptop-store" -
+   there are all the steps in the Cookbook01-farm.txt.
+
+   Don't worry about the deployment - we'll treat it properly in
+   the next session
+
+2. Continue 05-string-games project - 
+   in addition to "fix the clock" and "random quote"
+      create "palindrome" and "gematria" parts
+

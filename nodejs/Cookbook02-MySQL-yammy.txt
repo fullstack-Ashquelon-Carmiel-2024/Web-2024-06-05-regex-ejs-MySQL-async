@@ -1,0 +1,138 @@
+1. For now we've got installations of NodeJS 
+   and of "nodemon" 
+
+   To check, run:
+
+   $ node -v 
+     v18.20.0
+   $ nodemon -v
+    3.1.0
+
+2. Install MySQL server+client:
+
+or XAMPP
+or MySQL Workbench Community Edition
+
+3. Start MySQL server up:
+
+In XAMPP option:
+
+     Windows -> XAMPP Control Panel -> Apache START ->
+       MySQL START -> MySQL Admin -> Opens PHPMyAdmin Client
+
+4. Get to the directory of the project, initiate it, and 
+install several modules:
+
+$ cd yummy
+
+$ npm init 
+
+$ npm i express mysql2 ejs
+
+5. yummy/db/create-db.sql:
+
+CREATE DATABASE yummy 
+COLLATE = 'utf8mb4_general_ci';
+
+Now run it in SQL interface and create the database.
+
+6. yummy/yummy.js:
+
+const express = require('express');
+const mysql = require('mysql2');
+require('ejs');
+
+/********** VARIABLES **********/
+let port = process.env.PORT ? process.env.PORT : 3053;
+
+/***** CREATE THE SERVER ******/
+const app = express();
+
+/******* ROUTING *********/
+app.get('/',(req,res) => {
+
+    res.send('<h1>🧁🥑The YUMMIEST APP of all🍐</h1>')
+
+})
+
+/*********LISTENER *********/
+app.listen(port, () => {
+
+    console.log(`Listening on the port ${port}`)
+
+})
+
+7. package.json:
+
+{
+  "name": "yummy",
+  "version": "1.0.0",
+  "description": "MVC NodeJS Express + ejs + MySQL project",
+  "main": "yummy.js",
+  "scripts": {
+    "start": "nodemon yummy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mysql2": "^3.10.0"
+  }
+}
+
+8. $ npm start 
+
+9. yummy/yummy.js: Create the object of DB connection and
+connect to the DB:
+
+const express = require('express');
+const mysql = require('mysql2');
+require('ejs');
+
+/********** VARIABLES **********/
+let port = process.env.PORT ? process.env.PORT : 3053;
+
+/*********** DB CONNECTION **********/
+const db = mysql.createConnection({
+    host: 'localhost', // or '127.0.0.1'
+    port: 3306,
+    database: 'yummy',
+    user: 'root', // TBD: create new, less powerful user
+    password: ''
+})
+
+db.connect(err => {
+
+    if (err) {
+        // Connection to DB is critical for our app,
+        // so if it has failed, we should treat it 
+        // and not start the server
+        throw(err)
+    }
+
+    console.log('I fill lucky today. I\'ve connected to DB!!!');
+
+})
+
+/***** CREATE THE SERVER ******/
+const app = express();
+
+/******* ROUTING *********/
+app.get('/',(req,res) => {
+
+    res.send('<h1>🧁🥑The YUMMIEST APP of all🍐</h1>')
+
+})
+
+/*********LISTENER *********/
+app.listen(port, () => {
+
+    console.log(`Listening on the port ${port}`)
+
+})
+
+10. 
+
+
